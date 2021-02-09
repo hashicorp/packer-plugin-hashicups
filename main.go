@@ -2,14 +2,12 @@ package main
 
 import (
 	"fmt"
-	"os"
-	"packer-plugin-scaffolding/builder/scaffolding"
-	scaffoldingData "packer-plugin-scaffolding/datasource/scaffolding"
-	scaffoldingPP "packer-plugin-scaffolding/post-processor/scaffolding"
-	scaffoldingProv "packer-plugin-scaffolding/provisioner/scaffolding"
-
 	"github.com/hashicorp/packer-plugin-sdk/plugin"
 	"github.com/hashicorp/packer-plugin-sdk/version"
+	"os"
+	"packer-plugin-hashicups/builder/order"
+	"packer-plugin-hashicups/datasource/coffees"
+	"packer-plugin-hashicups/datasource/ingredients"
 )
 
 var (
@@ -28,10 +26,11 @@ var (
 
 func main() {
 	pps := plugin.NewSet()
-	pps.RegisterBuilder("my-builder", new(scaffolding.Builder))
-	pps.RegisterProvisioner("my-provisioner", new(scaffoldingProv.Provisioner))
-	pps.RegisterPostProcessor("my-post-processor", new(scaffoldingPP.PostProcessor))
-	pps.RegisterDatasource("my-datasource", new(scaffoldingData.Datasource))
+	pps.RegisterDatasource("coffees", new(coffees.Datasource))
+	pps.RegisterDatasource("ingredients", new(ingredients.Datasource))
+	pps.RegisterBuilder("order", new(order.Builder))
+	//pps.RegisterProvisioner("my-provisioner", new(scaffoldingProv.Provisioner))
+	//pps.RegisterPostProcessor("my-post-processor", new(scaffoldingPP.PostProcessor))
 	pps.SetVersion(PluginVersion)
 	err := pps.Run()
 	if err != nil {

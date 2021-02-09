@@ -1,9 +1,10 @@
-//go:generate mapstructure-to-hcl2 -type Config
+//go:generate mapstructure-to-hcl2 -type Config,OrderItem,Coffee,Ingredient
 
-package scaffolding
+package order
 
 import (
 	"context"
+	"github.com/hashicorp/packer-plugin-sdk/template/config"
 
 	"github.com/hashicorp/hcl/v2/hcldec"
 	"github.com/hashicorp/packer-plugin-sdk/common"
@@ -12,11 +13,30 @@ import (
 	packersdk "github.com/hashicorp/packer-plugin-sdk/packer"
 )
 
-const BuilderId = "scaffolding.builder"
+const BuilderId = "hashicups.builder"
 
 type Config struct {
 	common.PackerConfig `mapstructure:",squash"`
-	MockOption          string `mapstructure:"mock"`
+	Username            string `mapstructure:"username"`
+	Password            string `mapstructure:"password"`
+	Host                string `mapstructure:"host"`
+	Item []OrderItem `mapstructure:"item,omitempty" required:"true"`
+}
+
+type OrderItem struct {
+	Coffee   Coffee `mapstructure:"coffee" required:"true"`
+	Quantity int    `mapstructure:"quantity" required:"true"`
+}
+
+type Coffee struct {
+	ID          string          `mapstructure:"id" required:"true"`
+	Name        string       `mapstructure:"name" required:"true"`
+	Ingredient  []Ingredient `mapstructure:"ingredient"`
+}
+
+type Ingredient struct {
+	ID       string    `mapstructure:"id" required:"true"`
+	Quantity int    `mapstructure:"quantity"`
 }
 
 type Builder struct {
@@ -27,16 +47,20 @@ type Builder struct {
 func (b *Builder) ConfigSpec() hcldec.ObjectSpec { return b.config.FlatMapstructure().HCL2Spec() }
 
 func (b *Builder) Prepare(raws ...interface{}) (generatedVars []string, warnings []string, err error) {
-	// Return the placeholder for the generated data that will become available to provisioners and post-processors.
-	// If the builder doesn't generate any data, just return an empty slice of string: []string{}
-	buildGeneratedData := []string{"GeneratedMockData"}
-	return buildGeneratedData, nil, nil
+	buildGeneratedData := []string{"OrderId"}
+	return buildGeneratedData, nil, config.Decode(&b.config, nil, raws...)
 }
 
 func (b *Builder) Run(ctx context.Context, ui packersdk.Ui, hook packersdk.Hook) (packersdk.Artifact, error) {
 	steps := []multistep.Step{}
 
 	steps = append(steps,
+		&StepCreateClient{
+			Username: b.config.Username,
+			Password: b.config.Password,
+			Host:     b.config.Host,
+		},
+		&StepCreateOrder{Items: b.config.Item},
 		new(commonsteps.StepProvision),
 	)
 
@@ -48,7 +72,7 @@ func (b *Builder) Run(ctx context.Context, ui packersdk.Ui, hook packersdk.Hook)
 	// Set the value of the generated data that will become available to provisioners.
 	// To share the data with post-processors, use the StateData in the artifact.
 	state.Put("generated_data", map[string]interface{}{
-		"GeneratedMockData": "mock-build-data",
+		"OrderId": state.Get("orderId"),
 	})
 
 	// Run!

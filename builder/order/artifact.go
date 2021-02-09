@@ -1,4 +1,4 @@
-package scaffolding
+package order
 
 // packersdk.Artifact implementation
 type Artifact struct {
