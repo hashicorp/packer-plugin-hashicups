@@ -27,9 +27,7 @@ func (b *Builder) Run(ctx context.Context, ui packersdk.Ui, hook packersdk.Hook)
 	steps := []multistep.Step{}
 
 	steps = append(steps,
-		&StepCreateClient{
-			Auth: b.config.AuthConfig,
-		},
+		&StepCreateClient{Auth: b.config.AuthConfig},
 		&StepCreateOrder{Items: b.config.Item},
 		new(commonsteps.StepProvision),
 	)

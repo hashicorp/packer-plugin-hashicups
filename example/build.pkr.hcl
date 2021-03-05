@@ -42,6 +42,10 @@ source "hashicups-order" "my-custom-order" {
 build {
   sources = ["sources.hashicups-order.my-custom-order"]
 
+  provisioner "hashicups-toppings" {
+    toppings = ["cinnamon", "marshmellow", "chocolate", "sprinkles"]
+  }
+
   post-processor "hashicups-receipt" {
     format = "pdf"
   }

@@ -26,6 +26,6 @@ func (s *StepCreateClient) Run(_ context.Context, state multistep.StateBag) mult
 	return multistep.ActionContinue
 }
 
-func (s *StepCreateClient) Cleanup(state multistep.StateBag) {
+func (s *StepCreateClient) Cleanup(_ multistep.StateBag) {
 	// Nothing to clean
 }

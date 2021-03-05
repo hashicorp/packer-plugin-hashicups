@@ -91,6 +91,7 @@ func (p *PostProcessor) PostProcess(_ context.Context, ui packersdk.Ui, source p
 		order.Items[i].Coffee.Ingredient = ingredients
 	}
 
+	ui.Say("Printing order receipt...")
 	if err := p.config.printer.Print(prettifyReceipt(order)); err != nil {
 		ui.Error(fmt.Sprintf("Failed to write %s: %q", p.config.Filename, err.Error()))
 		return source, false, false, err
