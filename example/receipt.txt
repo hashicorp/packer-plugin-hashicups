@@ -1,0 +1,15 @@
+========== ORDER RECEIPT ===========
+ID: 40 
+
+-> Item 0 
+    x1 my custom vagrante (id: 47)     
+          1: Espresso   50ml
+    Price: $200.00 
+-> Item 1 
+    x2 my custom packer spiced latter (id: 48)     
+          1: Espresso   50ml
+          2: Semi Skimmed Milk   200ml
+          4: Pumpkin Spice   5g
+    Price: $350.00 
+
+Total: $900.00

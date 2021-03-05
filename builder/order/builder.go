@@ -1,11 +1,8 @@
-//go:generate mapstructure-to-hcl2 -type Config,OrderItem,Coffee,Ingredient
-
 package order
 
 import (
 	"context"
 	"github.com/hashicorp/hcl/v2/hcldec"
-	"github.com/hashicorp/packer-plugin-sdk/common"
 	"github.com/hashicorp/packer-plugin-sdk/multistep"
 	"github.com/hashicorp/packer-plugin-sdk/multistep/commonsteps"
 	packersdk "github.com/hashicorp/packer-plugin-sdk/packer"
@@ -13,30 +10,6 @@ import (
 )
 
 const BuilderId = "hashicups.builder"
-
-type Config struct {
-	common.PackerConfig `mapstructure:",squash"`
-	Username            string      `mapstructure:"username"`
-	Password            string      `mapstructure:"password"`
-	Host                string      `mapstructure:"host"`
-	Item                []OrderItem `mapstructure:"item,omitempty" required:"true"`
-}
-
-type OrderItem struct {
-	Coffee   Coffee `mapstructure:"coffee" required:"true"`
-	Quantity int    `mapstructure:"quantity" required:"true"`
-}
-
-type Coffee struct {
-	ID         string       `mapstructure:"id" required:"true"`
-	Name       string       `mapstructure:"name" required:"true"`
-	Ingredient []Ingredient `mapstructure:"ingredient"`
-}
-
-type Ingredient struct {
-	ID       string `mapstructure:"id" required:"true"`
-	Quantity int    `mapstructure:"quantity"`
-}
 
 type Builder struct {
 	config Config
@@ -55,9 +28,7 @@ func (b *Builder) Run(ctx context.Context, ui packersdk.Ui, hook packersdk.Hook)
 
 	steps = append(steps,
 		&StepCreateClient{
-			Username: b.config.Username,
-			Password: b.config.Password,
-			Host:     b.config.Host,
+			Auth: b.config.AuthConfig,
 		},
 		&StepCreateOrder{Items: b.config.Item},
 		new(commonsteps.StepProvision),
@@ -79,7 +50,7 @@ func (b *Builder) Run(ctx context.Context, ui packersdk.Ui, hook packersdk.Hook)
 
 	artifact := &Artifact{
 		StateData: map[string]interface{}{
-			"order": state.Get("order"),
+			"order":  state.Get("order"),
 			"client": state.Get("client"),
 			// Add the builder generated data to the artifact StateData so that post-processors
 			// can access them.

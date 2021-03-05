@@ -5,12 +5,12 @@ package status
 import (
 	"context"
 	"fmt"
-	"github.com/schollz/progressbar/v3"
 	"time"
 
 	"github.com/hashicorp/hcl/v2/hcldec"
 	"github.com/hashicorp/packer-plugin-sdk/packer"
 	"github.com/hashicorp/packer-plugin-sdk/template/config"
+	"github.com/schollz/progressbar/v3"
 )
 
 type Config struct {

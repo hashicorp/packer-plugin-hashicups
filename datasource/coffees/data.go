@@ -2,19 +2,17 @@
 package coffees
 
 import (
+	"packer-plugin-hashicups/common"
 	"strconv"
 
 	"github.com/hashicorp/hcl/v2/hcldec"
 	"github.com/hashicorp/packer-plugin-sdk/hcl2helper"
 	"github.com/hashicorp/packer-plugin-sdk/template/config"
-	"github.com/sylviamoss/hashicups-client-go"
 	"github.com/zclconf/go-cty/cty"
 )
 
 type Config struct {
-	Username string `mapstructure:"username"`
-	Password string `mapstructure:"password"`
-	Host     string `mapstructure:"host"`
+	common.AuthConfig `mapstructure:",squash"`
 }
 
 type Datasource struct {
@@ -44,21 +42,7 @@ func (d *Datasource) OutputSpec() hcldec.ObjectSpec {
 func (d *Datasource) Execute() (cty.Value, error) {
 	output := DatasourceOutput{}
 
-	var host *string
-	var username *string
-	var password *string
-
-	if d.config.Host != "" {
-		host = &d.config.Host
-	}
-	if d.config.Username != "" {
-		username = &d.config.Username
-	}
-	if d.config.Password != "" {
-		password = &d.config.Password
-	}
-
-	client, err := hashicups.NewClient(host, username, password)
+	client, err := d.config.AuthConfig.CreateClient()
 	if err != nil {
 		return cty.EmptyObjectVal, err
 	}

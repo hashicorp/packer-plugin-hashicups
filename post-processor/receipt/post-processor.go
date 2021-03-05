@@ -5,27 +5,26 @@ package receipt
 import (
 	"context"
 	"fmt"
-	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
-	"time"
 
 	"github.com/hashicorp/hcl/v2/hcldec"
 	"github.com/hashicorp/packer-plugin-sdk/common"
 	packersdk "github.com/hashicorp/packer-plugin-sdk/packer"
 	"github.com/hashicorp/packer-plugin-sdk/template/config"
-	"github.com/jung-kurt/gofpdf"
 	"github.com/mitchellh/mapstructure"
 	"github.com/sylviamoss/hashicups-client-go"
 )
 
 type Config struct {
 	common.PackerConfig `mapstructure:",squash"`
-	// Must contain extension. Defaults to `receipt.pdf`.
+	// Defaults to 'receipt'.
 	Filename string `mapstructure:"filename"`
-	// Should be `pdf` or `txt`. Defaults to pdf.
+	// Should be 'pdf' or 'txt'. Defaults to 'pdf'.
 	Format string `mapstructure:"format"`
+
+	printer Printer
 }
 
 type PostProcessor struct {
@@ -43,9 +42,26 @@ func (p *PostProcessor) Configure(raws ...interface{}) error {
 	if p.config.Format == "" {
 		p.config.Format = "pdf"
 	}
-
 	if p.config.Filename == "" {
-		p.config.Filename = "receipt.pdf"
+		p.config.Filename = "receipt"
+	}
+
+	p.config.Format = fmt.Sprintf(".%s", p.config.Format)
+
+	if filepath.Ext(p.config.Filename) == "" {
+		p.config.Filename = fmt.Sprintf("%s%s", p.config.Filename, p.config.Format)
+	}
+	if filepath.Ext(p.config.Filename) != p.config.Format {
+		return fmt.Errorf("`filename` extension must be the same as `format`")
+	}
+
+	switch p.config.Format {
+	case ".pdf":
+		p.config.printer = &PDFPrinter{p.config.Filename}
+	case ".txt":
+		p.config.printer = &TextPrinter{p.config.Filename}
+	default:
+		return fmt.Errorf("format is not valid - valid formats: txt or pdf")
 	}
 
 	return nil
@@ -75,8 +91,8 @@ func (p *PostProcessor) PostProcess(_ context.Context, ui packersdk.Ui, source p
 		order.Items[i].Coffee.Ingredient = ingredients
 	}
 
-	if err := writePDF(p.config.Filename, prettifyReceipt(order)); err != nil {
-		ui.Error(fmt.Sprintf("Failed to write: %q", err.Error()))
+	if err := p.config.printer.Print(prettifyReceipt(order)); err != nil {
+		ui.Error(fmt.Sprintf("Failed to write %s: %q", p.config.Filename, err.Error()))
 		return source, false, false, err
 	}
 	return source, true, true, nil
@@ -95,27 +111,12 @@ func prettifyReceipt(order hashicups.Order) string {
 		for _, ingredient := range item.Coffee.Ingredient {
 			builder.WriteString(fmt.Sprintf("          %d: %s   %d%s\n", ingredient.ID, ingredient.Name, ingredient.Quantity, ingredient.Unit))
 		}
-		builder.WriteString(fmt.Sprintf("    Price: $%.2f", item.Coffee.Price))
+		builder.WriteString(fmt.Sprintf("    Price: $%.2f \n", item.Coffee.Price))
 		total += float64(item.Quantity) * item.Coffee.Price
 	}
 
-	builder.WriteString("\n\n")
+	builder.WriteString("\n")
 	builder.WriteString(fmt.Sprintf("Total: $%.2f", total))
 
 	return builder.String()
-}
-
-func writePDF(filename, content string) error {
-	if info, err := os.Stat(filename); err == nil {
-		filename = fmt.Sprintf("%s-%d.%s", info.Name(), time.Now().Unix(), filepath.Ext(filename))
-	}
-	pdf := gofpdf.New("P", "mm", "A4", "")
-	pdf.AddPage()
-	pdf.SetFont("Arial", "B", 12)
-	pdf.MultiCell(190, 7, content, "5", "L", false)
-
-	if err := pdf.OutputFileAndClose(filename); err != nil {
-		return err
-	}
-	return nil
 }
