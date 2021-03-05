@@ -2,7 +2,6 @@ package order
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/hashicorp/packer-plugin-sdk/multistep"
 	packersdk "github.com/hashicorp/packer-plugin-sdk/packer"
@@ -38,7 +37,6 @@ func (s *StepCreateClient) Run(_ context.Context, state multistep.StateBag) mult
 		state.Put("error", err)
 		return multistep.ActionHalt
 	}
-	ui.Say(fmt.Sprintf("Token: %s", client.Token))
 	state.Put("client", client)
 	return multistep.ActionContinue
 }

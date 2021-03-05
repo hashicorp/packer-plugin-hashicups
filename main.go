@@ -8,6 +8,8 @@ import (
 	"packer-plugin-hashicups/builder/order"
 	"packer-plugin-hashicups/datasource/coffees"
 	"packer-plugin-hashicups/datasource/ingredients"
+	"packer-plugin-hashicups/post-processor/receipt"
+	"packer-plugin-hashicups/provisioner/status"
 )
 
 var (
@@ -29,8 +31,8 @@ func main() {
 	pps.RegisterDatasource("coffees", new(coffees.Datasource))
 	pps.RegisterDatasource("ingredients", new(ingredients.Datasource))
 	pps.RegisterBuilder("order", new(order.Builder))
-	//pps.RegisterProvisioner("my-provisioner", new(scaffoldingProv.Provisioner))
-	//pps.RegisterPostProcessor("my-post-processor", new(scaffoldingPP.PostProcessor))
+	pps.RegisterProvisioner("status", new(status.Provisioner))
+	pps.RegisterPostProcessor("receipt", new(receipt.PostProcessor))
 	pps.SetVersion(PluginVersion)
 	err := pps.Run()
 	if err != nil {

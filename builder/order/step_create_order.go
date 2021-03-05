@@ -2,6 +2,7 @@ package order
 
 import (
 	"context"
+	"fmt"
 	"strconv"
 
 	"github.com/hashicorp/packer-plugin-sdk/multistep"
@@ -47,7 +48,15 @@ func (s *StepCreateOrder) Run(_ context.Context, state multistep.StateBag) multi
 		state.Put("error", err)
 		return multistep.ActionHalt
 	}
-	state.Put("orderId", order.ID)
+	ui.Say(fmt.Sprintf("Order %d created!", order.ID))
+
+	// Set the value of the generated data that will become available to provisioners.
+	// To share the data with post-processors, use the StateData in the artifact.
+	state.Put("generated_data", map[string]interface{}{
+		"OrderId": strconv.Itoa(order.ID),
+	})
+
+	state.Put("order", order)
 	return multistep.ActionContinue
 }
 

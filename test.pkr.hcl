@@ -34,12 +34,7 @@ source "hashicups-order" "my-custom-order" {
 build {
   sources = ["sources.hashicups-order.my-custom-order"]
 
-  provisioner "hasicups-status" {
-    order = build.OrderId
+  post-processor "hashicups-receipt" {
+    format = "pdf"
   }
-
-//  post-processor "hashicups-recipt" {
-//    order = build.OrderId
-//    format = "pdf"
-//  }
 }

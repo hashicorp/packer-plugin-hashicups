@@ -4,23 +4,22 @@ package order
 
 import (
 	"context"
-	"github.com/hashicorp/packer-plugin-sdk/template/config"
-
 	"github.com/hashicorp/hcl/v2/hcldec"
 	"github.com/hashicorp/packer-plugin-sdk/common"
 	"github.com/hashicorp/packer-plugin-sdk/multistep"
 	"github.com/hashicorp/packer-plugin-sdk/multistep/commonsteps"
 	packersdk "github.com/hashicorp/packer-plugin-sdk/packer"
+	"github.com/hashicorp/packer-plugin-sdk/template/config"
 )
 
 const BuilderId = "hashicups.builder"
 
 type Config struct {
 	common.PackerConfig `mapstructure:",squash"`
-	Username            string `mapstructure:"username"`
-	Password            string `mapstructure:"password"`
-	Host                string `mapstructure:"host"`
-	Item []OrderItem `mapstructure:"item,omitempty" required:"true"`
+	Username            string      `mapstructure:"username"`
+	Password            string      `mapstructure:"password"`
+	Host                string      `mapstructure:"host"`
+	Item                []OrderItem `mapstructure:"item,omitempty" required:"true"`
 }
 
 type OrderItem struct {
@@ -29,13 +28,13 @@ type OrderItem struct {
 }
 
 type Coffee struct {
-	ID          string          `mapstructure:"id" required:"true"`
-	Name        string       `mapstructure:"name" required:"true"`
-	Ingredient  []Ingredient `mapstructure:"ingredient"`
+	ID         string       `mapstructure:"id" required:"true"`
+	Name       string       `mapstructure:"name" required:"true"`
+	Ingredient []Ingredient `mapstructure:"ingredient"`
 }
 
 type Ingredient struct {
-	ID       string    `mapstructure:"id" required:"true"`
+	ID       string `mapstructure:"id" required:"true"`
 	Quantity int    `mapstructure:"quantity"`
 }
 
@@ -69,12 +68,6 @@ func (b *Builder) Run(ctx context.Context, ui packersdk.Ui, hook packersdk.Hook)
 	state.Put("hook", hook)
 	state.Put("ui", ui)
 
-	// Set the value of the generated data that will become available to provisioners.
-	// To share the data with post-processors, use the StateData in the artifact.
-	state.Put("generated_data", map[string]interface{}{
-		"OrderId": state.Get("orderId"),
-	})
-
 	// Run!
 	b.runner = commonsteps.NewRunner(steps, b.config.PackerConfig, ui)
 	b.runner.Run(ctx, state)
@@ -85,9 +78,13 @@ func (b *Builder) Run(ctx context.Context, ui packersdk.Ui, hook packersdk.Hook)
 	}
 
 	artifact := &Artifact{
-		// Add the builder generated data to the artifact StateData so that post-processors
-		// can access them.
-		StateData: map[string]interface{}{"generated_data": state.Get("generated_data")},
+		StateData: map[string]interface{}{
+			"order": state.Get("order"),
+			"client": state.Get("client"),
+			// Add the builder generated data to the artifact StateData so that post-processors
+			// can access them.
+			"generated_data": state.Get("generated_data"),
+		},
 	}
 	return artifact, nil
 }
