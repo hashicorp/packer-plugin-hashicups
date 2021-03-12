@@ -7,10 +7,10 @@ import (
 	"time"
 )
 
-type StepWait struct {
+type StepWaitForBarista struct {
 }
 
-func (s *StepWait) Run(_ context.Context, state multistep.StateBag) multistep.StepAction {
+func (s *StepWaitForBarista) Run(_ context.Context, state multistep.StateBag) multistep.StepAction {
 	ui := state.Get("ui").(packersdk.Ui)
 
 	ui.Say("The barista is preparing your order...")
@@ -21,6 +21,6 @@ func (s *StepWait) Run(_ context.Context, state multistep.StateBag) multistep.St
 	return multistep.ActionContinue
 }
 
-func (s *StepWait) Cleanup(state multistep.StateBag) {
+func (s *StepWaitForBarista) Cleanup(_ multistep.StateBag) {
 	// Nothing to clean
 }

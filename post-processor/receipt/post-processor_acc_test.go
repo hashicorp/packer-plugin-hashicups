@@ -9,16 +9,18 @@ import (
 	"testing"
 
 	"github.com/hashicorp/packer-plugin-sdk/acctest"
+	"github.com/hashicorp/packer-plugin-sdk/acctest/testutils"
 )
 
-// Run with: PACKER_ACC=1 go test -count 1 -v ./post-processor/scaffolding/post-processor_acc_test.go  -timeout=120m
-func TestScaffoldingPostProcessor(t *testing.T) {
+// Run with: PACKER_ACC=1 go test -count 1 -v ./post-processor/receipt/post-processor_acc_test.go  -timeout=120m
+func TestReceiptPostProcessor(t *testing.T) {
 	testCase := &acctest.PluginTestCase{
 		Name: "scaffolding_post-processor_basic_test",
 		Setup: func() error {
 			return nil
 		},
 		Teardown: func() error {
+			testutils.CleanupFiles("receipt.txt", "receipt.pdf")
 			return nil
 		},
 		Template: testPostProcessorHCL2Basic,
@@ -42,9 +44,16 @@ func TestScaffoldingPostProcessor(t *testing.T) {
 			}
 			logsString := string(logsBytes)
 
-			postProcessorOutputLog := "post-processor mock: my-mock-config"
+			postProcessorOutputLog := "Printing order receipt..."
 			if matched, _ := regexp.MatchString(postProcessorOutputLog+".*", logsString); !matched {
-				t.Fatalf("logs doesn't contain expected foo value %q", logsString)
+				t.Fatalf("logs doesn't contain expected output %q", logsString)
+			}
+
+			if !testutils.FileExists("receipt.txt") {
+				t.Fatal("couldn't find expected receipt file: receipt.txt")
+			}
+			if !testutils.FileExists("receipt.pdf") {
+				t.Fatal("couldn't find expected receipt file: receipt.pdf")
 			}
 			return nil
 		},
@@ -53,17 +62,30 @@ func TestScaffoldingPostProcessor(t *testing.T) {
 }
 
 const testPostProcessorHCL2Basic = `
-source "null" "basic-example" {
-  communicator = "none"
+source "hashicups-order" "my-custom-order" {
+  username = "education"
+  password = "test123"
+
+  item {
+    coffee {
+      id = 5
+      name = "my custom vagrante"
+      ingredient {
+        id = 1
+        quantity = 50
+      }
+    }
+  }
 }
 
 build {
-  sources = [
-    "source.null.basic-example"
-  ]
+  sources = ["sources.hashicups-order.my-custom-order"]
 
-  post-processor "scaffolding-my-post-processor" {
-    mock = "my-mock-config"
+  post-processor "hashicups-receipt" {
+    format = "pdf"
+  }
+  post-processor "hashicups-receipt" {
+    format = "txt"
   }
 }
 `

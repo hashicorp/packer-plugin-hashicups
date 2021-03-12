@@ -19,9 +19,10 @@ func (s *StepCreateOrder) Run(_ context.Context, state multistep.StateBag) multi
 	client := state.Get("client").(*hashicups.Client)
 
 	ui.Say("Creating HashiCups Order")
-	orderItems := []hashicups.OrderItem{}
 
+	orderItems := []hashicups.OrderItem{}
 	for _, item := range s.Items {
+
 		ingredients := []hashicups.Ingredient{}
 		for _, ig := range item.Coffee.Ingredient {
 			id, _ := strconv.Atoi(ig.ID)
@@ -30,6 +31,7 @@ func (s *StepCreateOrder) Run(_ context.Context, state multistep.StateBag) multi
 				Quantity: ig.Quantity,
 			})
 		}
+
 		id, _ := strconv.Atoi(item.Coffee.ID)
 		oi := hashicups.OrderItem{
 			Coffee: hashicups.Coffee{
@@ -51,7 +53,6 @@ func (s *StepCreateOrder) Run(_ context.Context, state multistep.StateBag) multi
 	ui.Say(fmt.Sprintf("Order %d created!", order.ID))
 
 	// Set the value of the generated data that will become available to provisioners.
-	// To share the data with post-processors, use the StateData in the artifact.
 	state.Put("generated_data", map[string]interface{}{
 		"OrderId": strconv.Itoa(order.ID),
 	})
@@ -60,6 +61,6 @@ func (s *StepCreateOrder) Run(_ context.Context, state multistep.StateBag) multi
 	return multistep.ActionContinue
 }
 
-func (s *StepCreateOrder) Cleanup(state multistep.StateBag) {
+func (s *StepCreateOrder) Cleanup(_ multistep.StateBag) {
 	// Nothing to clean
 }

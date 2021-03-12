@@ -11,10 +11,10 @@ import (
 	"github.com/hashicorp/packer-plugin-sdk/acctest"
 )
 
-// Run with: PACKER_ACC=1 go test -count 1 -v ./datasource/scaffolding/data_acc_test.go  -timeout=120m
-func TestScaffoldingDatasource(t *testing.T) {
+// Run with: PACKER_ACC=1 go test -count 1 -v ./datasource/ingredients/data_acc_test.go  -timeout=120m
+func TestIngredientsDatasource(t *testing.T) {
 	testCase := &acctest.PluginTestCase{
-		Name: "scaffolding_datasource_basic_test",
+		Name: "ingredients_datasource_basic_test",
 		Setup: func() error {
 			return nil
 		},
@@ -22,7 +22,7 @@ func TestScaffoldingDatasource(t *testing.T) {
 			return nil
 		},
 		Template: testDatasourceHCL2Basic,
-		Type:     "scaffolding-my-datasource",
+		Type:     "hashicups-ingredients",
 		Check: func(buildCommand *exec.Cmd, logfile string) error {
 			if buildCommand.ProcessState != nil {
 				if buildCommand.ProcessState.ExitCode() != 0 {
@@ -42,14 +42,9 @@ func TestScaffoldingDatasource(t *testing.T) {
 			}
 			logsString := string(logsBytes)
 
-			fooLog := "null.basic-example: foo: foo-value"
-			barLog := "null.basic-example: bar: bar-value"
-
-			if matched, _ := regexp.MatchString(fooLog+".*", logsString); !matched {
-				t.Fatalf("logs doesn't contain expected foo value %q", logsString)
-			}
-			if matched, _ := regexp.MatchString(barLog+".*", logsString); !matched {
-				t.Fatalf("logs doesn't contain expected bar value %q", logsString)
+			buildGeneratedDataLog := "hashicups-order.my-custom-order: Order [0-9]+ created!"
+			if matched, _ := regexp.MatchString(buildGeneratedDataLog+".*", logsString); !matched {
+				t.Fatalf("logs doesn't contain expected output %q", logsString)
 			}
 			return nil
 		},
@@ -58,29 +53,33 @@ func TestScaffoldingDatasource(t *testing.T) {
 }
 
 const testDatasourceHCL2Basic = `
-data "scaffolding-my-datasource" "test" {
-  mock = "mock-config"
+data "hashicups-ingredients" "vagrante-ingredients" {
+  username = "education"
+  password = "test123"
+  coffee = "Vagrante espresso"
 }
 
 locals {
-  foo = data.scaffolding-my-datasource.test.foo
-  bar = data.scaffolding-my-datasource.test.bar
+  espresso = data.hashicups-ingredients.vagrante-ingredients.map["Espresso"]
 }
 
-source "null" "basic-example" {
-  communicator = "none"
+source "hashicups-order" "my-custom-order" {
+  username = "education"
+  password = "test123"
+
+  item {
+    coffee {
+      id = 5
+      name = "my custom vagrante"
+      ingredient {
+        id = local.espresso
+        quantity = 50
+      }
+    }
+  }
 }
 
 build {
-  sources = [
-    "source.null.basic-example"
-  ]
-
-  provisioner "shell-local" {
-    inline = [
-      "echo foo: ${local.foo}",
-      "echo bar: ${local.bar}",
-    ]
-  }
+  sources = ["sources.hashicups-order.my-custom-order"]
 }
 `

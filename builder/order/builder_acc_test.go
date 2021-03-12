@@ -42,9 +42,9 @@ func TestOrderBuilder(t *testing.T) {
 			}
 			logsString := string(logsBytes)
 
-			buildGeneratedDataLog := "scaffolding-my-builder.basic-example: build generated data: mock-build-data"
+			buildGeneratedDataLog := "hashicups-order.my-custom-order: Order [0-9]+ created!"
 			if matched, _ := regexp.MatchString(buildGeneratedDataLog+".*", logsString); !matched {
-				t.Fatalf("logs doesn't contain expected foo value %q", logsString)
+				t.Fatalf("logs doesn't contain expected output %q", logsString)
 			}
 			return nil
 		},
@@ -53,19 +53,23 @@ func TestOrderBuilder(t *testing.T) {
 }
 
 const testBuilderHCL2Basic = `
-source "scaffolding-my-builder" "basic-example" {
-  mock = "mock-config"
+source "hashicups-order" "my-custom-order" {
+  username = "education"
+  password = "test123"
+
+  item {
+    coffee {
+      id = 5
+      name = "my custom vagrante"
+      ingredient {
+        id = 1
+        quantity = 50
+      }
+    }
+  }
 }
 
 build {
-  sources = [
-    "source.scaffolding-my-builder.basic-example"
-  ]
-
-  provisioner "shell-local" {
-    inline = [
-      "echo build generated data: ${build.GeneratedMockData}",
-    ]
-  }
+  sources = ["sources.hashicups-order.my-custom-order"]
 }
 `

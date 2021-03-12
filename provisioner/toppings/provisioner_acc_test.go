@@ -11,10 +11,10 @@ import (
 	"github.com/hashicorp/packer-plugin-sdk/acctest"
 )
 
-// Run with: PACKER_ACC=1 go test -count 1 -v ./provisioner/scaffolding/provisioner_acc_test.go  -timeout=120m
-func TestScaffoldingProvisioner(t *testing.T) {
+// Run with: PACKER_ACC=1 go test -count 1 -v ./provisioner/toppings/provisioner_acc_test.go  -timeout=120m
+func TestToppingsProvisioner(t *testing.T) {
 	testCase := &acctest.PluginTestCase{
-		Name: "scaffolding_provisioner_basic_test",
+		Name: "toppings_provisioner_basic_test",
 		Setup: func() error {
 			return nil
 		},
@@ -22,7 +22,7 @@ func TestScaffoldingProvisioner(t *testing.T) {
 			return nil
 		},
 		Template: testProvisionerHCL2Basic,
-		Type:     "scaffolding-my-provisioner",
+		Type:     "hashicups-toppings",
 		Check: func(buildCommand *exec.Cmd, logfile string) error {
 			if buildCommand.ProcessState != nil {
 				if buildCommand.ProcessState.ExitCode() != 0 {
@@ -42,9 +42,13 @@ func TestScaffoldingProvisioner(t *testing.T) {
 			}
 			logsString := string(logsBytes)
 
-			provisionerOutputLog := "null.basic-example: provisioner mock: my-mock-config"
+			provisionerOutputLog := "Pouring cinnamon..."
 			if matched, _ := regexp.MatchString(provisionerOutputLog+".*", logsString); !matched {
-				t.Fatalf("logs doesn't contain expected foo value %q", logsString)
+				t.Fatalf("logs doesn't contain expected output %q", logsString)
+			}
+			provisionerOutputLog = "Pouring marshmellow..."
+			if matched, _ := regexp.MatchString(provisionerOutputLog+".*", logsString); !matched {
+				t.Fatalf("logs doesn't contain expected output %q", logsString)
 			}
 			return nil
 		},
@@ -53,17 +57,27 @@ func TestScaffoldingProvisioner(t *testing.T) {
 }
 
 const testProvisionerHCL2Basic = `
-source "null" "basic-example" {
-  communicator = "none"
+source "hashicups-order" "my-custom-order" {
+  username = "education"
+  password = "test123"
+
+  item {
+    coffee {
+      id = 5
+      name = "my custom vagrante"
+      ingredient {
+        id = 1
+        quantity = 50
+      }
+    }
+  }
 }
 
 build {
-  sources = [
-    "source.null.basic-example"
-  ]
+  sources = ["sources.hashicups-order.my-custom-order"]
 
-  provisioner "scaffolding-my-provisioner" {
-    mock = "my-mock-config"
+  provisioner "hashicups-toppings" {
+    toppings = ["cinnamon", "marshmellow"]
   }
 }
 `

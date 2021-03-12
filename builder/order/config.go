@@ -14,17 +14,18 @@ type Config struct {
 }
 
 type OrderItem struct {
-	Coffee   Coffee `mapstructure:"coffee" required:"true"`
-	Quantity int    `mapstructure:"quantity" required:"true"`
+	Coffee Coffee `mapstructure:"coffee" required:"true"`
+	// TODO default to 1
+	Quantity int `mapstructure:"quantity"`
 }
 
 type Coffee struct {
 	ID         string       `mapstructure:"id" required:"true"`
 	Name       string       `mapstructure:"name" required:"true"`
-	Ingredient []Ingredient `mapstructure:"ingredient"`
+	Ingredient []Ingredient `mapstructure:"ingredient" required:"true"`
 }
 
 type Ingredient struct {
 	ID       string `mapstructure:"id" required:"true"`
-	Quantity int    `mapstructure:"quantity"`
+	Quantity int    `mapstructure:"quantity" required:"true"`
 }
