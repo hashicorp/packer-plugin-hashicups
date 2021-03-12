@@ -41,15 +41,16 @@ func (d *Datasource) OutputSpec() hcldec.ObjectSpec {
 
 func (d *Datasource) Execute() (cty.Value, error) {
 	output := DatasourceOutput{}
+	emptyOutput := hcl2helper.HCL2ValueFromConfig(output, d.OutputSpec())
 
 	client, err := d.config.AuthConfig.CreateClient()
 	if err != nil {
-		return cty.EmptyObjectVal, err
+		return emptyOutput, err
 	}
 
 	coffees, err := client.GetCoffees()
 	if err != nil {
-		return cty.EmptyObjectVal, err
+		return emptyOutput, err
 	}
 
 	mapOfCoffees := map[string]string{}
