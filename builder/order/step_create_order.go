@@ -20,32 +20,66 @@ func (s *StepCreateOrder) Run(_ context.Context, state multistep.StateBag) multi
 
 	ui.Say("Creating HashiCups Order")
 
+	originalCoffees, err := client.GetCoffees()
+	if err != nil {
+		state.Put("error", err)
+		return multistep.ActionHalt
+	}
+
 	orderItems := []hashicups.OrderItem{}
 	for _, item := range s.Items {
-
-		ingredients := []hashicups.Ingredient{}
-		for _, ig := range item.Coffee.Ingredient {
-			id, _ := strconv.Atoi(ig.ID)
-			ingredients = append(ingredients, hashicups.Ingredient{
-				ID:       id,
-				Quantity: ig.Quantity,
-			})
-		}
-
-		id, _ := strconv.Atoi(item.Coffee.ID)
-		oi := hashicups.OrderItem{
+		customIngredients := item.Coffee.Ingredient
+		orderItem := hashicups.OrderItem{
 			Coffee: hashicups.Coffee{
-				ID:         id,
-				Name:       item.Coffee.Name,
-				Ingredient: ingredients,
+				Name: item.Coffee.Name,
 			},
 			Quantity: item.Quantity,
 		}
 
-		orderItems = append(orderItems, oi)
+		originalIngredients, err := client.GetCoffeeIngredients(item.Coffee.ID)
+		if err != nil {
+			state.Put("error", fmt.Errorf("pelase, pick a valid coffee id from the menu: %s", err.Error()))
+			return multistep.ActionHalt
+		}
+
+		// Update order with newly create custom coffee
+		for _, coffee := range originalCoffees {
+			if strconv.Itoa(coffee.ID) == item.Coffee.ID {
+				if orderItem.Coffee.Name == coffee.Name {
+					state.Put("error", fmt.Errorf("coffee %s must have a different name from the original coffee", orderItem.Coffee.Name))
+					return multistep.ActionHalt
+				}
+				coffee.Name = orderItem.Coffee.Name
+				newCoffee, err := client.CreateCoffee(coffee)
+				if err != nil {
+					state.Put("error", err)
+					return multistep.ActionHalt
+				}
+				orderItem.Coffee = *newCoffee
+				continue
+			}
+		}
+
+		// Add ingredients to the custom coffee
+		for _, ingredient := range originalIngredients {
+			for _, customIngredient := range customIngredients {
+				if strconv.Itoa(ingredient.ID) == customIngredient.ID {
+					// Update ingredient quantity according to customisation
+					ingredient.Quantity = customIngredient.Quantity
+					continue
+				}
+			}
+			_, err := client.CreateCoffeeIngredient(orderItem.Coffee, ingredient)
+			if err != nil {
+				state.Put("error", err)
+				return multistep.ActionHalt
+			}
+		}
+
+		orderItems = append(orderItems, orderItem)
 	}
 
-	order, err := client.CreateCustomOrder(orderItems)
+	order, err := client.CreateOrder(orderItems)
 	if err != nil {
 		state.Put("error", err)
 		return multistep.ActionHalt

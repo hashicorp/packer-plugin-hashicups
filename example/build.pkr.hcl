@@ -19,7 +19,6 @@ source "hashicups-order" "my-custom-order" {
         quantity = 50
       }
     }
-    quantity = 1
   }
 
   item {

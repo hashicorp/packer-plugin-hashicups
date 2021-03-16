@@ -29,6 +29,10 @@ func (p *Provisioner) Prepare(raws ...interface{}) error {
 	if err != nil {
 		return err
 	}
+
+	if len(p.config.Toppings) == 0 {
+		return fmt.Errorf("you must specify one or more toppings")
+	}
 	return nil
 }
 

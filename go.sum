@@ -515,6 +515,8 @@ github.com/stretchr/testify v1.6.1 h1:hDPOHmpOpP40lSULcqw7IrRb/u7w6RpDC9399XyoNd
 github.com/stretchr/testify v1.6.1/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
 github.com/sylviamoss/hashicups-client-go v0.0.0-20210209160746-4c3aa9d19c7b h1:+nJZ3ym3tPGxyYseBK9xKDLUt1/V6AB9+4uFCXnk5Zs=
 github.com/sylviamoss/hashicups-client-go v0.0.0-20210209160746-4c3aa9d19c7b/go.mod h1:iGCV7afASsdXiBubsX3aXC6FFaAnvsRAnR+jyJN1QlI=
+github.com/sylviamoss/hashicups-client-go v0.0.0-20210315161012-23494542fa73 h1:QQoSvvL2S0UDKBfV86iUi+AM3mzO8iUCW22J3mUvxug=
+github.com/sylviamoss/hashicups-client-go v0.0.0-20210315161012-23494542fa73/go.mod h1:iGCV7afASsdXiBubsX3aXC6FFaAnvsRAnR+jyJN1QlI=
 github.com/tencentcloud/tencentcloud-sdk-go v3.0.222+incompatible/go.mod h1:0PfYow01SHPMhKY31xa+EFz2RStxIqj6JFAJS+IkCi4=
 github.com/tv42/httpunix v0.0.0-20150427012821-b75d8614f926/go.mod h1:9ESjWnEqriFuLhtthL60Sar/7RFoluCcXsuvEwTV5KM=
 github.com/ucloud/ucloud-sdk-go v0.16.3/go.mod h1:dyLmFHmUfgb4RZKYQP9IArlvQ2pxzFthfhwxRzOEPIw=

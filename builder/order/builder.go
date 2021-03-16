@@ -2,6 +2,8 @@ package order
 
 import (
 	"context"
+	"fmt"
+
 	"github.com/hashicorp/hcl/v2/hcldec"
 	"github.com/hashicorp/packer-plugin-sdk/multistep"
 	"github.com/hashicorp/packer-plugin-sdk/multistep/commonsteps"
@@ -23,9 +25,35 @@ func (b *Builder) Prepare(raws ...interface{}) (generatedVars []string, warnings
 		return nil, nil, err
 	}
 
-	// TODO check if configuration is correct
+	if len(b.config.Item) == 0 {
+		return nil, nil, fmt.Errorf("you must specify at least one item")
+	}
 
-	// Let Packer know that this builder will generate a OrderId
+	multiError := new(packersdk.MultiError)
+	for i, item := range b.config.Item {
+		if item.Quantity == 0 {
+			b.config.Item[i].Quantity = 1
+		}
+		if item.Coffee.ID == "" {
+			multiError = packersdk.MultiErrorAppend(multiError, fmt.Errorf("you must specify a coffee 'id'"))
+		}
+		if item.Coffee.Name == "" {
+			multiError = packersdk.MultiErrorAppend(multiError, fmt.Errorf("you must specify a coffee 'name' different from the original coffee"))
+		}
+		if len(item.Coffee.Ingredient) == 0 {
+			multiError = packersdk.MultiErrorAppend(multiError, fmt.Errorf("you must specify at least one ingredient customisation"))
+		}
+		for _, ingredient := range item.Coffee.Ingredient {
+			if ingredient.ID == "" {
+				multiError = packersdk.MultiErrorAppend(multiError, fmt.Errorf("you must specify a ingredient 'id'"))
+			}
+			if ingredient.Quantity == 0 {
+				multiError = packersdk.MultiErrorAppend(multiError, fmt.Errorf("you must specify a ingredient 'quantity'"))
+			}
+		}
+	}
+
+	// Let Packer know that this builder will generate an OrderId
 	buildGeneratedData := []string{"OrderId"}
 	return buildGeneratedData, nil, err
 }

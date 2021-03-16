@@ -3,8 +3,9 @@
 package order
 
 import (
-	packercommon "github.com/hashicorp/packer-plugin-sdk/common"
 	"packer-plugin-hashicups/common"
+
+	packercommon "github.com/hashicorp/packer-plugin-sdk/common"
 )
 
 type Config struct {
@@ -14,9 +15,8 @@ type Config struct {
 }
 
 type OrderItem struct {
-	Coffee Coffee `mapstructure:"coffee" required:"true"`
-	// TODO default to 1
-	Quantity int `mapstructure:"quantity"`
+	Coffee   Coffee `mapstructure:"coffee" required:"true"`
+	Quantity int    `mapstructure:"quantity"`
 }
 
 type Coffee struct {

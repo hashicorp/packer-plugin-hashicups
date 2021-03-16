@@ -8,6 +8,6 @@ require (
 	github.com/jung-kurt/gofpdf v1.16.2
 	github.com/mitchellh/mapstructure v1.4.0
 	github.com/schollz/progressbar/v3 v3.7.4
-	github.com/sylviamoss/hashicups-client-go v0.0.0-20210209160746-4c3aa9d19c7b
+	github.com/sylviamoss/hashicups-client-go v0.0.0-20210315161012-23494542fa73
 	github.com/zclconf/go-cty v1.7.0
 )

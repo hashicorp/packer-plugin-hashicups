@@ -34,6 +34,9 @@ func (d *Datasource) Configure(raws ...interface{}) error {
 	if err != nil {
 		return err
 	}
+	if d.config.Coffee == "" {
+		return fmt.Errorf("you must specify the name of the coffee to get its ingredients")
+	}
 	return nil
 }
 
