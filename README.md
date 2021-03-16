@@ -7,15 +7,15 @@ Refer to the [documentation](docs) to learn about the Hashicups plugin and how i
 
 ## Test sample configuration
 
-First, you will need the demo product api up and running. 
+First, you will need the demo hashicups api up and running. 
 
 ```shell
-$ make run-product-api
+$ make run-hashicups-api
 ```
 
-This will run `docker-compose up -d ` in [example/product_api](example/product_api).
+This will run `docker-compose up -d` in [example/hashicups_api](example/hashicups_api).
 
-Sign up to the product api.
+Sign up to the hashicups api.
 
 ```shell
 $ curl -X POST localhost:19090/signup -d '{"username":"education", "password":"test123"}'

@@ -6,7 +6,7 @@ The component of this plugin are:
 
 - [Order builder](/docs/builders/order.mdx) - The order builder is used to create custom HashiCups order.
 
-- [Toppings provisiner](/docs/provisioners/toppings.mdx) - The toppings provisioner is used add toppings to your order coffee(s).
+- [Toppings provisiner](/docs/provisioners/toppings.mdx) - The toppings provisioner is used to add toppings to your order coffee(s).
 
 - [Receipt post-processor](/docs/post-processors/receipt.mdx) - The receipt post-processor is used to
   print the receipt of your order.
@@ -17,7 +17,7 @@ The component of this plugin are:
 - [Ingredients data source](/docs/datasources/ingredients.mdx) - The ingredients data source is used to
   fetch the ingredients ids for an existent coffee in the Hashicups menu.
 
-## The HashiCups Menu and orders
+## The HashiCups menu and orders
 
 Get the available coffees: 
 ```shell
@@ -31,7 +31,7 @@ First, sing in with previously created account:
 $ curl -X POST localhost:19090/signin -d '{"username":"education", "password":"test123"}'
 ```
 
-Then, export the return JWT token to HASHICUPS_TOKEN:
+Then, export the returned JWT token to `HASHICUPS_TOKEN`:
 ```shell
 $ export HASHICUPS_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTU5ODcxNzgsInVzZXJfaWQiOjEsInVzZXJuYW1lIjoiZWR1Y2F0aW9uIn0.VJQXoxror-_ZUoNHtsG6GJ-bJCOvjU5kMZtXhSzBtP0
 ```
