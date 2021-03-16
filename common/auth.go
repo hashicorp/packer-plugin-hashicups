@@ -2,7 +2,7 @@
 
 package common
 
-import "github.com/sylviamoss/hashicups-client-go"
+import "github.com/hashicorp-demoapp/hashicups-client-go"
 
 type AuthConfig struct {
 	Username string `mapstructure:"username"`

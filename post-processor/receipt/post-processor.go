@@ -9,12 +9,12 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/hashicorp-demoapp/hashicups-client-go"
 	"github.com/hashicorp/hcl/v2/hcldec"
 	"github.com/hashicorp/packer-plugin-sdk/common"
 	packersdk "github.com/hashicorp/packer-plugin-sdk/packer"
 	"github.com/hashicorp/packer-plugin-sdk/template/config"
 	"github.com/mitchellh/mapstructure"
-	"github.com/sylviamoss/hashicups-client-go"
 )
 
 type Config struct {
