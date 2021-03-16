@@ -1,0 +1,46 @@
+---
+description: >
+    The toppings provisioner is used add toppings to your order coffee(s).
+page_title: Toppings - Provisioners
+sidebar_title: Toppings
+---
+
+# Toppings
+
+Type: `toppings`
+
+The toppings provisioner is used add toppings to your order coffee(s).
+
+### Required
+
+- `toppings` ([]string) - Any toppings would like to pour on the ordered coffees.
+
+### Example Usage
+
+
+```hcl
+source "hashicups-order" "my-custom-order" {
+  username = "education"
+  password = "test123"
+
+  item {
+    coffee {
+      id = 1
+      name = "My Custom Packer Spiced Latter"
+      ingredient {
+        id = 1
+        quantity = 50
+      }
+    }
+  }
+}
+
+build {
+  sources = ["sources.hashicups-order.my-custom-order"]
+
+  provisioner "hashicups-toppings" {
+    toppings = ["cinnamon", "marshmellow", "chocolate", "sprinkles"]
+  }
+}
+```
+

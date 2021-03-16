@@ -1,0 +1,62 @@
+---
+description: >
+    The coffees data source is used to
+    fetch all the coffees ids existent in the Hashicups menu.
+page_title: Coffees - Data Sources
+sidebar_title: Coffees
+---
+
+# Coffees
+
+Type: `coffees`
+
+The coffees data source is used to fetch all the coffees ids existent in the Hashicups menu.
+
+### Required
+
+- `username` (string) - The username signed up to the Product API.
+- `password` (string) - The password signed up to the Product API.
+
+### Optional
+
+- `host` (string) - The Product API host. Defaults to `localhost:19090`
+
+### OutPut
+
+- `map` (map[string]string) - A map of coffee name to coffee id.
+
+### Example Usage
+
+
+```hcl
+data "hashicups-coffees" "coffees" {
+  username = "education"
+  password = "test123"
+}
+
+locals {
+  vagrante_espresso = data.hashicups-coffees.coffees.map["Vagrante espresso"]
+}
+
+source "hashicups-order" "my-custom-order" {
+  username = "education"
+  password = "test123"
+
+  item {
+    coffee {
+      id = local.vagrante_espresso
+      name = "my custom vagrante"
+      ingredient {
+        id = 1
+        quantity = 50
+      }
+    }
+  }
+}
+
+build {
+  sources = ["sources.hashicups-order.my-custom-order"]
+}
+```
+
+

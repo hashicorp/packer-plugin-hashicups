@@ -1,0 +1,64 @@
+---
+description: >
+    The ingredients data source is used to
+    fetch the ingredients ids for an existent coffee in the Hashicups menu.
+page_title: Ingredients - Data Sources
+sidebar_title: Ingredients
+---
+
+# Ingredients
+
+Type: `ingredients`
+
+The ingredients data source is used to fetch the ingredients ids for an existent coffee in the Hashicups menu.
+
+### Required
+
+- `username` (string) - The username signed up to the Product API.
+- `password` (string) - The password signed up to the Product API.
+- `coffee` (string) - The coffee id you would like to get the ingredient from. The ID should exist in the Hashicups menu.
+
+### Optional
+
+- `host` (string) - The Product API host. Defaults to `localhost:19090`
+
+### OutPut
+
+- `map` (map[string]string) - A map of ingredient name to ingredient id.
+
+### Example Usage
+
+```hcl
+data "hashicups-ingredients" "packer-ingredients" {
+  username = "education"
+  password = "test123"
+  coffee = "Packer Spiced Latte"
+}
+
+locals {
+  semi_skimmed_milk = data.hashicups-ingredients.packer-ingredients.map["Semi Skimmed Milk"]
+}
+
+source "hashicups-order" "my-custom-order" {
+  username = "education"
+  password = "test123"
+
+ item {
+    coffee {
+      id = 1
+      name = "my custom packer spiced latter"
+      ingredient {
+        id = local.semi_skimmed_milk
+        quantity = 200
+      }
+    }
+    quantity = 2
+  }
+}
+
+build {
+  sources = ["sources.hashicups-order.my-custom-order"]
+}
+```
+
+

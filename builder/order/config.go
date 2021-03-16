@@ -11,7 +11,7 @@ import (
 type Config struct {
 	packercommon.PackerConfig `mapstructure:",squash"`
 	common.AuthConfig         `mapstructure:",squash"`
-	Item                      []OrderItem `mapstructure:"item,omitempty" required:"true"`
+	Item                      []OrderItem `mapstructure:"item" required:"true"`
 }
 
 type OrderItem struct {

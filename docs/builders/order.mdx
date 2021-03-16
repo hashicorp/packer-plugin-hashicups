@@ -1,0 +1,88 @@
+---
+description: >
+  The order builder is used to create used to create custom HashiCups order.
+page_title: Order - Builders
+sidebar_title: Order
+---
+
+# Order
+
+Type: `order`
+
+The order builder is used to create used to create custom HashiCups order. A custom order is when you want to change
+an ingredient quantity from one of the original coffees from the Hashicups menu. See [Example Usage](#example-usage) to
+understand better how it works.
+
+### Required
+
+- `username` (string) - The username signed up to the Product API.
+- `password` (string) - The password signed up to the Product API.
+- `item` ([]OrderItem) - An item you would like to order. See the [order item configuration](#order-item-configuration).
+
+### Optional
+
+- `host` (string) - The Product API host. Defaults to `localhost:19090`
+
+## Order item configuration
+
+### Required
+
+- `coffee` ([]Coffee) - The item's coffee. See the [coffee configuration](#coffee-configuration).
+
+
+### Optional
+
+- `quantity` (int) - How many of the item you would like to order. Defaults to `1`.
+
+## Coffee configuration
+
+### Required
+
+- `id` (string) - The id of the coffee you would like to customize. The ID should exist in the Hashicups menu.
+- `name` (string) - The name of your customization. Should be different from the original coffee's name.
+- `ingredient` ([]Ingredient) - The ingredients you'd like to change the quantity of.
+See the [ingredient configuration](#ingredient-configuration).
+
+## Ingredient configuration
+
+### Required
+
+- `id` (string) - The id of the coffee ingredient you would like to customize. The ID should exist in the Hashicups menu.
+- `quantity` (int) - The new quantity amount you'd like your coffee to have from the ingredient.
+
+
+### Example Usage
+
+In the Hashicups menu you can find a Packer Spiced Latter (id 1) with **40ml** of espresso (id 1) and **300ml** of semi skimmed milk (id 2).
+Let's pretend you want to customized it to have **50ml** of espresso and **200ml** of semi skimmed milk instead. Also, you would like
+to order two of that.
+Your packer configuration will be:
+
+```hcl
+source "hashicups-order" "my-custom-order" {
+  username = "education"
+  password = "test123"
+
+  item {
+    coffee {
+      id = 1
+      name = "My Custom Packer Spiced Latter"
+      ingredient {
+        id = 1
+        quantity = 50
+      }
+      ingredient {
+        id = 2
+        quantity = 200
+      }
+    }
+    quantity = 2
+  }
+}
+
+build {
+  sources = ["sources.hashicups-order.my-custom-order"]
+}
+```
+
+
