@@ -1,7 +1,7 @@
 NAME=hashicups
 BINARY=packer-plugin-${NAME}
 
-.PHONY: install-plugin run-example
+.PHONY: install run-example
 
 build:
 	@go build -o ${BINARY}
