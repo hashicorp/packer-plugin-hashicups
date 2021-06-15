@@ -1,4 +1,4 @@
-//go:generate mapstructure-to-hcl2 -type DatasourceOutput,Config
+//go:generate packer-sdc mapstructure-to-hcl2 -type DatasourceOutput,Config
 package coffees
 
 import (

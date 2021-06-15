@@ -1,4 +1,4 @@
-//go:generate mapstructure-to-hcl2 -type Config,OrderItem,Coffee,Ingredient
+//go:generate packer-sdc mapstructure-to-hcl2 -type Config,OrderItem,Coffee,Ingredient
 
 package order
 
