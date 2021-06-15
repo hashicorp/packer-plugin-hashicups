@@ -1,11 +1,11 @@
-packer {
-  required_plugins {
-    hashicups = {
-      version = ">= 0.0.1"
-      source = "github.com/hashicorp/hashicups"
-    }
-  }
-}
+//packer {
+//  required_plugins {
+//    hashicups = {
+//      version = ">= 0.0.1"
+//      source = "github.com/hashicorp/hashicups"
+//    }
+//  }
+//}
 
 locals {
   vagrante_espresso = data.hashicups-coffees.coffees.map["Vagrante espresso"]
