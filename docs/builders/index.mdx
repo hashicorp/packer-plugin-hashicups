@@ -1,0 +1,26 @@
+---
+description: |
+    HashiCups Order builder is used to create used to create custom HashiCups order.
+page_title: HashiCups - Builders
+sidebar_title: Overview
+---
+
+# HashiCups Builder
+
+- [Order builder](/docs/builders/hashicups/order) - The order builder is used to create custom HashiCups order.
+
+## How to use this plugin
+
+From Packer v1.7.0, copy and paste this code into your Packer configuration to install this plugin.
+Then, run [`packer init`](/docs/commands/init).
+
+```hcl
+packer {
+  required_plugins {
+    hashicups = {
+      version = ">= 1.0.0"
+      source = "github.com/hashicorp/hashicups"
+    }
+  }
+}
+```
