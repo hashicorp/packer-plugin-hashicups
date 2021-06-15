@@ -2,10 +2,11 @@ package receipt
 
 import (
 	"fmt"
-	"github.com/jung-kurt/gofpdf"
 	"os"
 	"path/filepath"
 	"time"
+
+	"github.com/jung-kurt/gofpdf"
 )
 
 type Printer interface {

@@ -2,9 +2,10 @@ package order
 
 import (
 	"context"
+	"time"
+
 	"github.com/hashicorp/packer-plugin-sdk/multistep"
 	packersdk "github.com/hashicorp/packer-plugin-sdk/packer"
-	"time"
 )
 
 type StepWaitForBarista struct {

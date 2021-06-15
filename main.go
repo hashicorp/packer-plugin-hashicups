@@ -2,14 +2,15 @@ package main
 
 import (
 	"fmt"
-	"github.com/hashicorp/packer-plugin-sdk/plugin"
-	"github.com/hashicorp/packer-plugin-sdk/version"
 	"os"
 	"packer-plugin-hashicups/builder/order"
 	"packer-plugin-hashicups/datasource/coffees"
 	"packer-plugin-hashicups/datasource/ingredients"
 	"packer-plugin-hashicups/post-processor/receipt"
 	"packer-plugin-hashicups/provisioner/toppings"
+
+	"github.com/hashicorp/packer-plugin-sdk/plugin"
+	"github.com/hashicorp/packer-plugin-sdk/version"
 )
 
 var (
