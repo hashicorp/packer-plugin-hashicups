@@ -14,13 +14,13 @@ The ingredients data source is used to fetch the ingredients ids for an existent
 
 ### Required
 
-- `username` (string) - The username signed up to the Product API.
-- `password` (string) - The password signed up to the Product API.
+@include 'common/AuthConfig-required.mdx'
+
 - `coffee` (string) - The coffee id you would like to get the ingredient from. The ID should exist in the Hashicups menu.
 
 ### Optional
 
-- `host` (string) - The Product API host. Defaults to `localhost:19090`
+@include 'common/AuthConfig-not-required.mdx'
 
 ### OutPut
 

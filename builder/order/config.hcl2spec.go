@@ -45,8 +45,8 @@ type FlatConfig struct {
 	PackerOnError       *string           `mapstructure:"packer_on_error" cty:"packer_on_error" hcl:"packer_on_error"`
 	PackerUserVars      map[string]string `mapstructure:"packer_user_variables" cty:"packer_user_variables" hcl:"packer_user_variables"`
 	PackerSensitiveVars []string          `mapstructure:"packer_sensitive_variables" cty:"packer_sensitive_variables" hcl:"packer_sensitive_variables"`
-	Username            *string           `mapstructure:"username" cty:"username" hcl:"username"`
-	Password            *string           `mapstructure:"password" cty:"password" hcl:"password"`
+	Username            *string           `mapstructure:"username" required:"true" cty:"username" hcl:"username"`
+	Password            *string           `mapstructure:"password" required:"true" cty:"password" hcl:"password"`
 	Host                *string           `mapstructure:"host" cty:"host" hcl:"host"`
 	Item                []FlatOrderItem   `mapstructure:"item" required:"true" cty:"item" hcl:"item"`
 }

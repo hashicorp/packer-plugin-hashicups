@@ -15,13 +15,13 @@ understand better how it works.
 
 ### Required
 
-- `username` (string) - The username signed up to the Product API.
-- `password` (string) - The password signed up to the Product API.
+@include 'common/AuthConfig-required.mdx'
+
 - `item` ([]OrderItem) - An item you would like to order. See the [order item configuration](#order-item-configuration).
 
 ### Optional
 
-- `host` (string) - The Product API host. Defaults to `localhost:19090`
+@include 'common/AuthConfig-not-required.mdx'
 
 ## Order item configuration
 

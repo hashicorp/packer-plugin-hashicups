@@ -10,8 +10,8 @@ import (
 // FlatConfig is an auto-generated flat version of Config.
 // Where the contents of a field with a `mapstructure:,squash` tag are bubbled up.
 type FlatConfig struct {
-	Username *string `mapstructure:"username" cty:"username" hcl:"username"`
-	Password *string `mapstructure:"password" cty:"password" hcl:"password"`
+	Username *string `mapstructure:"username" required:"true" cty:"username" hcl:"username"`
+	Password *string `mapstructure:"password" required:"true" cty:"password" hcl:"password"`
 	Host     *string `mapstructure:"host" cty:"host" hcl:"host"`
 }
 
