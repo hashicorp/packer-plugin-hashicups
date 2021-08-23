@@ -6,7 +6,7 @@ The component of this plugin are:
 
 - [Order builder](builders/order.mdx) - The order builder is used to create custom HashiCups order.
 
-- [Toppings provisiner](provisioners/toppings.mdx) - The toppings provisioner is used to add toppings to your order coffee(s).
+- [Toppings provisioner](provisioners/toppings.mdx) - The toppings provisioner is used to add toppings to your order coffee(s).
 
 - [Receipt post-processor](post-processors/receipt.mdx) - The receipt post-processor is used to
   print the receipt of your order.
