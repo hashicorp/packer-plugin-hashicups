@@ -11,7 +11,7 @@ contribute to the project, read on. This document will cover what we're looking
 for. By addressing all the points we're looking for, it raises the chances we
 can quickly merge or address your contributions.
 
-When contributing in any way to the Packer project (new issue, PR, etc), please
+When contributing in any way to the Packer project (new issue, PR, etc.), please
 be aware that our team identifies with many gender pronouns. Please remember to
 use nonbinary pronouns (they/them) and gender neutral language ("Hello folks")
 when addressing our team. For more reading on our code of conduct, please see the
@@ -97,7 +97,7 @@ Thank you for contributing! When you are ready to open a pull-request, you will
 need to [fork the HashiCups plugin](https://github.com/hashicorp/packer-plugin-hashicups#fork-destination-box), push your
 changes to your fork, and then open a pull-request.
 
-For example, my github username is `myuser`, so I would do the following:
+For example, my GitHub username is `myuser`, so I would do the following:
 
 ```
 git checkout -b f-my-feature
@@ -156,7 +156,7 @@ It is much easier to review pull requests that are:
 2. Small: Try to only make one change per pull request. If you found two bugs
    and want to fix them both, that's _awesome_, but it's still best to submit
    the fixes as separate pull requests. This makes it much easier for reviewers
-   to keep in their heads all of the implications of individual code changes,
+   to keep in their heads all the implications of individual code changes,
    and that means the PR takes less effort and energy to merge. In general, the
    smaller the pull request, the sooner reviewers will be able to make time to
    review it.

@@ -10,7 +10,7 @@ nav_title: Order
 Type: `hashicups-order`
 
 The order builder is used to create used to create custom HashiCups order. A custom order is when you want to change
-an ingredient quantity from one of the original coffees from the Hashicups menu. See [Example Usage](#example-usage) to
+an ingredient quantity from one of the original coffees from the HashiCups menu. See [Example Usage](#example-usage) to
 understand better how it works.
 
 ### Required
@@ -38,7 +38,7 @@ understand better how it works.
 
 ### Required
 
-- `id` (string) - The id of the coffee you would like to customize. The ID should exist in the Hashicups menu.
+- `id` (string) - The id of the coffee you would like to customize. The ID should exist in the HashiCups menu.
 - `name` (string) - The name of your customization. Should be different from the original coffee's name.
 - `ingredient` ([]Ingredient) - The ingredients you'd like to change the quantity of.
 See the [ingredient configuration](#ingredient-configuration).
@@ -47,13 +47,13 @@ See the [ingredient configuration](#ingredient-configuration).
 
 ### Required
 
-- `id` (string) - The id of the coffee ingredient you would like to customize. The ID should exist in the Hashicups menu.
+- `id` (string) - The id of the coffee ingredient you would like to customize. The ID should exist in the HashiCups menu.
 - `quantity` (int) - The new quantity amount you'd like your coffee to have from the ingredient.
 
 
 ### Example Usage
 
-In the Hashicups menu you can find a Packer Spiced Latter (id 1) with **40ml** of espresso (id 1) and **300ml** of semi skimmed milk (id 2).
+In the HashiCups menu you can find a Packer Spiced Latter (id 1) with **40ml** of espresso (id 1) and **300ml** of semi skimmed milk (id 2).
 Let's pretend you want to customized it to have **50ml** of espresso and **200ml** of semi skimmed milk instead. Also, you would like
 to order two of that.
 Your packer configuration will be:

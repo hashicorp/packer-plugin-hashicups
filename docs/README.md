@@ -1,21 +1,21 @@
 # HashiCups Plugin
 
-The Hashicups plugin is part of the [Packer](https://learn.hashicorp.com/packer) Learn collection.
+The HashiCups plugin is part of the [Packer](https://learn.hashicorp.com/packer) Learn collection.
 The plugin interacts with the [HashiCorp Demo App API](https://github.com/hashicorp-demoapp/product-api-go) called HashiCups.
 The component of this plugin are:
 
 - [Order builder](builders/order.mdx) - The order builder is used to create custom HashiCups order.
 
-- [Toppings provisiner](provisioners/toppings.mdx) - The toppings provisioner is used to add toppings to your order coffee(s).
+- [Toppings provisioner](provisioners/toppings.mdx) - The toppings provisioner is used to add toppings to your order coffee(s).
 
 - [Receipt post-processor](post-processors/receipt.mdx) - The receipt post-processor is used to
   print the receipt of your order.
 
 - [Coffees data source](datasources/coffees.mdx) - The coffees data source is used to
-  fetch all the coffees ids existent in the Hashicups menu.
+  fetch all the coffees ids existent in the HashiCups menu.
 
 - [Ingredients data source](datasources/ingredients.mdx) - The ingredients data source is used to
-  fetch the ingredients ids for an existent coffee in the Hashicups menu.
+  fetch the ingredients ids for an existent coffee in the HashiCups menu.
 
 ## The HashiCups menu and orders
 
