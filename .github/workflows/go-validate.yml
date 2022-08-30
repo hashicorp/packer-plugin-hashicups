@@ -26,7 +26,7 @@ jobs:
     name: Go Mod Tidy
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-go@v3.3.0
+      - uses: actions/setup-go@v3
         with:
           go-version: ${{ needs.get-go-version.outputs.go-version }}
       - run: go mod tidy
@@ -35,8 +35,9 @@ jobs:
     name: Go Lint check
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-go@v3
         with:
-          fetch-depth: 0
+          go-version: ${{ needs.get-go-version.outputs.go-version }}
       - uses: golangci/golangci-lint-action@v3
         with:
           # Optional: show only new issues if it's a pull request. The default value is `false`.
@@ -46,7 +47,7 @@ jobs:
     name: Go fmt check
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-go@v3.3.0
+      - uses: actions/setup-go@v3
         with:
           go-version: ${{ needs.get-go-version.outputs.go-version }}
       - run: |
@@ -62,7 +63,7 @@ jobs:
     name: Generate check
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-go@v3.3.0
+      - uses: actions/setup-go@v3
         with:
           go-version: ${{ needs.get-go-version.outputs.go-version }}
       - run: |
