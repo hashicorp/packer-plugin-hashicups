@@ -26,7 +26,7 @@ jobs:
     name: Go Mod Tidy
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-go@v2
+      - uses: actions/setup-go@v3.3.0
         with:
           go-version: ${{ needs.get-go-version.outputs.go-version }}
       - run: go mod tidy
@@ -46,7 +46,7 @@ jobs:
     name: Go fmt check
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-go@v2
+      - uses: actions/setup-go@v3.3.0
         with:
           go-version: ${{ needs.get-go-version.outputs.go-version }}
       - run: |
@@ -62,9 +62,8 @@ jobs:
     name: Generate check
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-go@v2
+      - uses: actions/setup-go@v3.3.0
         with:
           go-version: ${{ needs.get-go-version.outputs.go-version }}
       - run: |
-          go install github.com/hashicorp/packer-plugin-sdk/cmd/packer-sdc@latest
           make generate
