@@ -65,4 +65,6 @@ jobs:
       - uses: actions/setup-go@v2
         with:
           go-version: ${{ needs.get-go-version.outputs.go-version }}
-      - run: make generate
+      - run: |
+          go install github.com/hashicorp/packer-plugin-sdk/cmd/packer-sdc@latest
+          make generate
