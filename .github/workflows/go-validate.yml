@@ -67,4 +67,5 @@ jobs:
         with:
           go-version: ${{ needs.get-go-version.outputs.go-version }}
       - run: |
+          export PATH=$PATH:$(go env GOPATH)/bin
           make generate
