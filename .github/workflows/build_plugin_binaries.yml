@@ -1,0 +1,107 @@
+name: hashicorp/packer-plugin-hashicups/build_plugin_binaries
+on:
+  push:
+    branches:
+    - main
+jobs:
+  build_linux:
+    runs-on: ubuntu-latest
+    container:
+      image: docker.mirror.hashicorp.services/cimg/go:1.17
+    steps:
+    - uses: actions/checkout@v3.5.0
+    - uses: "./.github/actions/build-and-persist-plugin-binary"
+      with:
+        GOOS: linux
+  build_darwin:
+    defaults:
+      run:
+        working-directory: "~/go/src/github.com/hashicorp/packer-plugin-hashicups"
+    runs-on: ubuntu-latest
+    container:
+      image: docker.mirror.hashicorp.services/cimg/go:1.17
+    steps:
+    - uses: actions/checkout@v3.5.0
+    - uses: "./.github/actions/build-and-persist-plugin-binary"
+      with:
+        GOOS: darwin
+  build_darwin_arm64:
+    defaults:
+      run:
+        working-directory: "~/go/src/github.com/hashicorp/packer-plugin-hashicups"
+    runs-on: ubuntu-latest
+    container:
+      image: docker.mirror.hashicorp.services/cimg/go:1.17
+    steps:
+    - uses: actions/checkout@v3.5.0
+    - uses: "./.github/actions/build-and-persist-plugin-binary"
+      with:
+        GOOS: darwin
+        GOARCH: arm64
+  build_windows:
+    defaults:
+      run:
+        working-directory: "~/go/src/github.com/hashicorp/packer-plugin-hashicups"
+    runs-on: ubuntu-latest
+    container:
+      image: docker.mirror.hashicorp.services/cimg/go:1.17
+    steps:
+    - uses: actions/checkout@v3.5.0
+    - uses: "./.github/actions/build-and-persist-plugin-binary"
+      with:
+        GOOS: windows
+  build_freebsd:
+    defaults:
+      run:
+        working-directory: "~/go/src/github.com/hashicorp/packer-plugin-hashicups"
+    runs-on: ubuntu-latest
+    container:
+      image: docker.mirror.hashicorp.services/cimg/go:1.17
+    steps:
+    - uses: actions/checkout@v3.5.0
+    - uses: "./.github/actions/build-and-persist-plugin-binary"
+      with:
+        GOOS: freebsd
+  build_openbsd:
+    defaults:
+      run:
+        working-directory: "~/go/src/github.com/hashicorp/packer-plugin-hashicups"
+    runs-on: ubuntu-latest
+    container:
+      image: docker.mirror.hashicorp.services/cimg/go:1.17
+    steps:
+    - uses: actions/checkout@v3.5.0
+    - uses: "./.github/actions/build-and-persist-plugin-binary"
+      with:
+        GOOS: openbsd
+  build_solaris:
+    defaults:
+      run:
+        working-directory: "~/go/src/github.com/hashicorp/packer-plugin-hashicups"
+    runs-on: ubuntu-latest
+    container:
+      image: docker.mirror.hashicorp.services/cimg/go:1.17
+    steps:
+    - uses: actions/checkout@v3.5.0
+    - uses: "./.github/actions/build-and-persist-plugin-binary"
+      with:
+        GOOS: solaris
+  store_artifacts:
+    runs-on: ubuntu-latest
+    container:
+      image: docker.mirror.hashicorp.services/cimg/go:1.17
+    needs:
+    - build_linux
+    - build_darwin
+    - build_darwin_arm64
+    - build_windows
+    - build_freebsd
+    - build_openbsd
+    - build_solaris
+    steps:
+    - uses: actions/download-artifact@v3.0.1
+      with:
+        path: "."
+    - uses: actions/upload-artifact@v3.1.1
+      with:
+        path: "./pkg/"
