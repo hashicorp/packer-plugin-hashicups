@@ -1,4 +1,4 @@
-# Contributing to HashiCups Plugin
+# Contributing to Hashicups Plugin
 
 **First:** if you're unsure or afraid of _anything_, just ask or submit the
 issue or pull request anyway. You won't be yelled at for giving your best
@@ -11,7 +11,7 @@ contribute to the project, read on. This document will cover what we're looking
 for. By addressing all the points we're looking for, it raises the chances we
 can quickly merge or address your contributions.
 
-When contributing in any way to the Packer project (new issue, PR, etc.), please
+When contributing in any way to the Packer project (new issue, PR, etc), please
 be aware that our team identifies with many gender pronouns. Please remember to
 use nonbinary pronouns (they/them) and gender neutral language ("Hello folks")
 when addressing our team. For more reading on our code of conduct, please see the
@@ -62,30 +62,30 @@ when addressing our team. For more reading on our code of conduct, please see th
 ## Setting up Go
 
 If you have never worked with Go before, you will have to install its
-runtime in order to build packer with the HashiCups plugin.
+runtime in order to build packer with the Hashicups plugin.
 
 1. This project always releases from the latest version of golang.
 [Install go](https://golang.org/doc/install#install) To properly build from
-source, you need to have golang >= v1.16
+source, you need to have golang >= 1.18
 
-## Setting up HashiCups plugin for dev
+## Setting up Hashicups plugin for dev
 
-With Go installed, you can already `go get` the HashiCups plugin and `make dev` in
+With Go installed, you can already `go get` the Hashicups plugin and `make dev` in
 order to compile and test it. These instructions target
 POSIX-like environments (macOS, Linux, Cygwin, etc.) so you may need to
 adjust them for Windows or other shells.
 
-1. Download the HashiCups plugin source (and its dependencies) by running
+1. Download the Hashicups plugin source (and its dependencies) by running
    `go get github.com/hashicorp/packer-plugin-hashicups`. This will download the source to
    `$GOPATH/src/github.com/hashicorp/packer-plugin-hashicups`.
 
-2. When working on the HashiCups plugin, first `cd $GOPATH/src/github.com/hashicorp/packer-plugin-hashicups`
+2. When working on the Hashicups plugin, first `cd $GOPATH/src/github.com/hashicorp/packer-plugin-hashicups`
    so you can run `make dev` and easily access other files. `make dev` will build the packer-plugin-hashicups binary and install it under `$HOME/.packer.d/plugins/`.
 
-3. Make your changes to the HashiCups plugin source. You can run `make dev` to build and install locally, and `make test` to run unit tests.
+3. Make your changes to the Hashicups plugin source. You can run `make dev` to build and install locally, and `make test` to run unit tests.
    Any compilation errors will be shown when the binaries are rebuilding. If you don't have `make` you can simply run `go build -o packer-plugin-hashicups` from the project root, and `mv packer-plugin-hashicups ~/.packer.d/plugins/packer-plugin-hashicups` to install the plugin.
 
-4. After building the HashiCups plugin successfully, use the latest version of Packer to build a machine and verify your changes. In the [example folder](https://github.com/hashicorp/packer-plugin-hashicups/blob/main/example) we provide a basic template. Comment out the `packer {}` block to force Packer use the development binary installed in the previous step.
+4. After building the Hashicups plugin successfully, use the latest version of Packer to build a machine and verify your changes. In the [example folder](https://github.com/hashicorp/packer-plugin-hashicups/blob/main/example) we provide a basic template. Comment out the `packer {}` block to force Packer use the development binary installed in the previous step.
 
 5. If everything works well and the tests pass, run `go fmt ./...` on your code before
    submitting a pull-request.
@@ -94,10 +94,10 @@ adjust them for Windows or other shells.
 ### Opening a Pull Request
 
 Thank you for contributing! When you are ready to open a pull-request, you will
-need to [fork the HashiCups plugin](https://github.com/hashicorp/packer-plugin-hashicups#fork-destination-box), push your
+need to [fork the Hashicups plugin](https://github.com/hashicorp/packer-plugin-hashicups#fork-destination-box), push your
 changes to your fork, and then open a pull-request.
 
-For example, my GitHub username is `myuser`, so I would do the following:
+For example, my github username is `myuser`, so I would do the following:
 
 ```
 git checkout -b f-my-feature
@@ -117,7 +117,7 @@ From there, open your fork in your browser to open a new pull-request.
 2. Once you believe your pull request is ready to be merged, you can remove any
    "[WIP]" prefix from the title and a core team member will review.
 
-3. One of HashiCups plugin's core team members will look over your contribution and
+3. One of Hashicups plugin's core team members will look over your contribution and
    either merge, or provide comments letting you know if there is anything left
    to do. We do our best to provide feedback in a timely manner, but it may take
    some time for us to respond. We may also have questions that we need answered
@@ -156,7 +156,7 @@ It is much easier to review pull requests that are:
 2. Small: Try to only make one change per pull request. If you found two bugs
    and want to fix them both, that's _awesome_, but it's still best to submit
    the fixes as separate pull requests. This makes it much easier for reviewers
-   to keep in their heads all the implications of individual code changes,
+   to keep in their heads all of the implications of individual code changes,
    and that means the PR takes less effort and energy to merge. In general, the
    smaller the pull request, the sooner reviewers will be able to make time to
    review it.
@@ -180,8 +180,8 @@ into the project.
 
 #### Working on forks
 
-The easiest way to work on a fork is to set it as a remote of the the HashiCups plugin
-project. After following the steps in "Setting up Go to work on the HashiCups plugin":
+The easiest way to work on a fork is to set it as a remote of the the Hashicups plugin
+project. After following the steps in "Setting up Go to work on the Hashicups plugin":
 
 1. Navigate to the code:
 
@@ -220,7 +220,7 @@ recommended but not required.
 Use `go get <project>` to add dependencies to the project. See [go mod quick
 start](https://github.com/golang/go/wiki/Modules#quick-start) for examples.
 
-Please only apply the minimal vendor changes to get your PR to work. The HashiCups plugin
+Please only apply the minimal vendor changes to get your PR to work. The Hashicups plugin
 does not attempt to track the latest version for each dependency.
 
 #### HCL2 Spec code generation
@@ -240,7 +240,7 @@ from the plugin's project root.
 
 #### Running Builder Acceptance Tests
 
-If the HashiCups Plugin has [acceptance tests](https://en.wikipedia.org/wiki/Acceptance_testing), these probably have some requirements such as environment variables to be set for API tokens and keys. Each test should error and tell you what are missing, so those are not documented here.
+If the Hashicups Plugin has [acceptance tests](https://en.wikipedia.org/wiki/Acceptance_testing), these probably have some requirements such as environment variables to be set for API tokens and keys. Each test should error and tell you what are missing, so those are not documented here.
 
 If you're working on a feature and want to verify it is functioning (and also hasn't broken anything else), we recommend creating or running the acceptance tests.
 
