@@ -1,34 +1,63 @@
-# Packer Plugin HashiCups
+# Packer Plugin Hashicups
+The `Hashicups` multi-component plugin can be used with HashiCorp [Packer](https://www.packer.io)
+to create custom images. For the full list of available features for this plugin see [docs](docs).
 
-This repo is part of the [Packer](https://learn.hashicorp.com/packer) Learn collection. The intent of this plugin is to help you create your own packer plugin.
+## Installation
 
-Refer to the [documentation](docs) to learn about the HashiCups plugin and how it works.
+### Using pre-built releases
 
+#### Using the `packer init` command
 
-## Test sample configuration
+Starting from version 1.7, Packer supports a new `packer init` command allowing
+automatic installation of Packer plugins. Read the
+[Packer documentation](https://www.packer.io/docs/commands/init) for more information.
 
-First, you will need the demo HashiCups API up and running.
+To install this plugin, copy and paste this code into your Packer configuration .
+Then, run [`packer init`](https://www.packer.io/docs/commands/init).
 
-```shell
-$ make run-hashicups-api
+```hcl
+packer {
+  required_plugins {
+    hashicups = {
+      version = ">= 0.0.1"
+      source  = "github.com/hashicorp/hashicups"
+    }
+  }
+}
 ```
 
-This will run `docker-compose up -d` in [example/hashicups_api](example/hashicups_api).
 
-Sign up to the HashiCups api.
+#### Manual installation
 
-```shell
-$ curl -X POST localhost:19090/signup -d '{"username":"education", "password":"test123"}'
-```
+You can find pre-built binary releases of the plugin [here](https://github.com/hashicorp/packer-plugin-hashicups/releases).
+Once you have downloaded the latest archive corresponding to your target OS,
+uncompress it to retrieve the plugin binary file corresponding to your platform.
+To install the plugin, please follow the Packer documentation on
+[installing a plugin](https://www.packer.io/docs/extending/plugins/#installing-plugins).
 
-Then, navigate to the [example](exmaple) directory.
 
-```shell
-$ cd example
-```
+### From Sources
 
-Run the following command to initialize and build the sample configuration.
+If you prefer to build the plugin from sources, clone the GitHub repository
+locally and run the command `go build` from the root
+directory. Upon successful compilation, a `packer-plugin-hashicups` plugin
+binary file can be found in the root directory.
+To install the compiled plugin, please follow the official Packer documentation
+on [installing a plugin](https://www.packer.io/docs/extending/plugins/#installing-plugins).
 
-```shell
-$ packer init . && packer build .
-```
+
+### Configuration
+
+For more information on how to configure the plugin, please read the
+documentation located in the [`docs/`](docs) directory.
+
+
+## Contributing
+
+* If you think you've found a bug in the code or you have a question regarding
+  the usage of this software, please reach out to us by opening an issue in
+  this GitHub repository.
+* Contributions to this project are welcome: if you want to add a feature or a
+  fix a bug, please do so by opening a Pull Request in this GitHub repository.
+  In case of feature contribution, we kindly ask you to open an issue to
+  discuss it beforehand.
