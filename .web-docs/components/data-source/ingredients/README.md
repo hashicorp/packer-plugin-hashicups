@@ -1,26 +1,28 @@
----
-description: >
-    The ingredients data source is used to
-    fetch the ingredients ids for an existent coffee in the Hashicups menu.
-page_title: Ingredients - Data Sources
-nav_title: Ingredients
----
-
-# Ingredients
-
 Type: `hashicups-ingredients`
 
 The ingredients data source is used to fetch the ingredients ids for an existent coffee in the HashiCups menu.
 
 ## Required
 
-@include 'common/AuthConfig-required.mdx'
+<!-- Code generated from the comments of the AuthConfig struct in common/auth.go; DO NOT EDIT MANUALLY -->
+
+- `username` (string) - The username signed up to the Product API.
+
+- `password` (string) - The password for the username signed up to the Product API.
+
+<!-- End of code generated from the comments of the AuthConfig struct in common/auth.go; -->
+
 
 - `coffee` (string) - The coffee id you would like to get the ingredient from. The ID should exist in the HashiCups menu.
 
 ## Optional
 
-@include 'common/AuthConfig-not-required.mdx'
+<!-- Code generated from the comments of the AuthConfig struct in common/auth.go; DO NOT EDIT MANUALLY -->
+
+- `host` (string) - The Product API host URL. Defaults to `localhost:19090`
+
+<!-- End of code generated from the comments of the AuthConfig struct in common/auth.go; -->
+
 
 ## OutPut
 
@@ -60,5 +62,3 @@ build {
   sources = ["sources.hashicups-order.my-custom-order"]
 }
 ```
-
-

@@ -1,24 +1,26 @@
----
-description: >
-    The coffees data source is used to
-    fetch all the coffees ids existent in the Hashicups menu.
-page_title: Coffees - Data Sources
-nav_title: Coffees
----
-
-# Coffees
-
 Type: `hashicups-coffees`
 
 The coffees data source is used to fetch all the coffees ids existent in the HashiCups menu.
 
 ## Required
 
-@include 'common/AuthConfig-required.mdx'
+<!-- Code generated from the comments of the AuthConfig struct in common/auth.go; DO NOT EDIT MANUALLY -->
+
+- `username` (string) - The username signed up to the Product API.
+
+- `password` (string) - The password for the username signed up to the Product API.
+
+<!-- End of code generated from the comments of the AuthConfig struct in common/auth.go; -->
+
 
 ## Optional
 
-@include 'common/AuthConfig-not-required.mdx'
+<!-- Code generated from the comments of the AuthConfig struct in common/auth.go; DO NOT EDIT MANUALLY -->
+
+- `host` (string) - The Product API host URL. Defaults to `localhost:19090`
+
+<!-- End of code generated from the comments of the AuthConfig struct in common/auth.go; -->
+
 
 ## OutPut
 
@@ -57,5 +59,3 @@ build {
   sources = ["sources.hashicups-order.my-custom-order"]
 }
 ```
-
-
