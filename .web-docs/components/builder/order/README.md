@@ -1,12 +1,3 @@
----
-description: >
-  The order builder is used to create used to create custom HashiCups order.
-page_title: Order - Builders
-nav_title: Order
----
-
-# HashiCups Order
-
 Type: `hashicups-order`
 
 The order builder is used to create used to create custom HashiCups order. A custom order is when you want to change
@@ -15,13 +6,25 @@ understand better how it works.
 
 ## Required
 
-@include 'common/AuthConfig-required.mdx'
+<!-- Code generated from the comments of the AuthConfig struct in common/auth.go; DO NOT EDIT MANUALLY -->
+
+- `username` (string) - The username signed up to the Product API.
+
+- `password` (string) - The password for the username signed up to the Product API.
+
+<!-- End of code generated from the comments of the AuthConfig struct in common/auth.go; -->
+
 
 - `item` ([]OrderItem) - An item you would like to order. See the [order item configuration](#order-item-configuration).
 
 ## Optional
 
-@include 'common/AuthConfig-not-required.mdx'
+<!-- Code generated from the comments of the AuthConfig struct in common/auth.go; DO NOT EDIT MANUALLY -->
+
+- `host` (string) - The Product API host URL. Defaults to `localhost:19090`
+
+<!-- End of code generated from the comments of the AuthConfig struct in common/auth.go; -->
+
 
 ## Order item configuration
 
@@ -84,5 +87,3 @@ build {
   sources = ["sources.hashicups-order.my-custom-order"]
 }
 ```
-
-

@@ -1,12 +1,3 @@
----
-description: >
-    The toppings provisioner is used to add toppings to your order coffee(s).
-page_title: Toppings - Provisioners
-nav_title: Toppings
----
-
-# Toppings
-
 Type: `hashicups-toppings`
 
 The toppings provisioner is used to add toppings to your order coffee(s).
@@ -43,4 +34,3 @@ build {
   }
 }
 ```
-

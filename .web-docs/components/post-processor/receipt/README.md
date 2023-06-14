@@ -1,12 +1,3 @@
----
-description: >
-    The receipt post-processor is used to print the receipt of your order.
-page_title: Receipt - Post-Processors
-nav_title: Receipt
----
-
-# Receipt
-
 Type: `hashicups-receipt`
 
 The receipt post-processor is used to print the receipt of your order.
@@ -43,4 +34,3 @@ build {
   }
 }
 ```
-
