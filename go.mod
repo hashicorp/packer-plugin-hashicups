@@ -1,4 +1,4 @@
-module packer-plugin-hashicups
+module github.com/hashicorp/packer-plugin-hashicups
 
 go 1.21.0
 
