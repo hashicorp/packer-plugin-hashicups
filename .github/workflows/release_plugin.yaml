@@ -1,0 +1,67 @@
+name: Release Plugin
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_version:
+        type: string
+        description: "The semver version of the release (ie: 1.2.3)"
+        required: true
+jobs:
+  release_plugin:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - uses: actions4git/setup-git@v1
+    - name: Cutting release and preparing dev
+      run: |
+        set -e
+
+        Red='\033[0;31m'
+        Green='\033[0;32m'
+        BBlue='\033[1;34m'
+
+        echo -e "$Green# SETTING UP SEMVER VALUES #"
+        last_tag=$(git describe --tags --abbrev=0)
+        last_semver=${last_tag:1}
+        semver=${{ github.event.inputs.release_version }}
+        echo "$semver" > current_version_file
+        IFS='.' read major minor patch<current_version_file
+        dev_semver="$major.$minor.$(($patch + 1))"
+
+        if git rev-parse -q --verify "refs/tags/v$semver" >/dev/null; then
+          echo -e "$Red error: release v$semver already exists."
+          exit 1
+        fi
+
+        echo -e "Last semver is $BBlue v$last_semver"
+        echo -e "Next dev semver is $BBlue v$dev_semver-dev"
+        echo -e "Next semver is $BBlue v$semver"
+        printf "\n\n"
+
+        echo -e "$Green# CUTTING RELEASE v$semver #"
+        sed -i -E "s/(Version\s*=\s*)\".*\"/\1\"$semver\"/" "./version/version.go"
+        sed -i -E "s/$last_semver/$semver/g" "./README.md"
+        sed -i -E 's/(VersionPrerelease\s*=\s*)"dev"/\1""/' "./version/version.go"
+        git diff
+        git add ./version/version.go ./README.md
+        git commit -m "version: cut release v$semver"
+        git tag "v$semver"
+        printf "\n\n"
+
+        echo -e "$Green# PREPARE v$dev_semver-dev #"
+        sed -i -E "s/$semver/$dev_semver/g" "./version/version.go"
+        sed -i -E 's/(VersionPrerelease\s*=\s*)""/\1"dev"/' "./version/version.go"
+        git diff
+        git add ./version/version.go
+        git commit -m "version: prepare v$dev_semver-dev"
+        printf "\n\n"
+
+        echo -e "$Green# PUSHING COMMITS AND TAG #"
+        git push
+        git push origin "v$semver"
